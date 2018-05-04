@@ -2,9 +2,9 @@
 #include <stdio.h>
 #include <unistd.h>
 
-#define ROUNDS 1
-#define LOOP 10
-#define BUFFER 5
+#define ROUNDS 1000
+#define LOOP 10000
+#define BUFFER 50
 
 int main(){
   int i,j;

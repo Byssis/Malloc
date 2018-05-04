@@ -21,10 +21,13 @@ void print_list(){
 
 void *get_block(int index){
   printf("Get block index %d\n", index);
-  if(index > 6)
-    return sbrk(4096);
-
   if(flist[index] == NULL){
+    if(index > 6){
+      struct chunk *cnk1 = (struct chunk*)sbrk(4096);
+      cnk1->size = 4096 - sizeof(struct chunk);
+      cnk1->next = NULL;
+      return (void*)(cnk1);
+    }
     printf("Index %d empty\n", index);
     void * memory = (void *)get_block(index + 1);
     if(memory == NULL)
@@ -59,7 +62,7 @@ void *malloc(size_t size){
   printf("Malloc %d, size of chunk: %d\n", size, sizeof(struct chunk));
   int index = 0;
   int start = 32;
-  while(size > start - sizeof(struct chunk)){
+  while(size + sizeof(struct chunk) > start ){
     index++;
     start *= 2;
   }
@@ -68,6 +71,9 @@ void *malloc(size_t size){
   if (memory == NULL)
     return NULL;
   struct chunk *cnk = (struct chunk*)memory;
+    printf("Malloc %d, size of chunk: %p\n", cnk->size, cnk );
+  printf("Malloc %d, size of chunk: %p\n", cnk->size, cnk + 1);
+
   return  (void *)(cnk + 1);
 }
 
@@ -75,6 +81,7 @@ void free (void *memory){
   //printf("Free\n");
   if(memory != NULL){
     struct chunk *cnk = (struct chunk*)((struct chunk *) memory - 1);
+    printf("Cnk: %p %d\n", cnk, cnk->size);
     int size = cnk->size + sizeof(struct chunk);
     int index = 0;
     printf("  Free size %d\n", size);
