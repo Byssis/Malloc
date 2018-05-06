@@ -8,7 +8,7 @@ struct chunk {
 };
 
 struct chunk * flist = NULL;
-int frag = 0;
+
 void *malloc(size_t size){
   if(size == 0){
     return NULL;
@@ -23,8 +23,6 @@ void *malloc(size_t size){
       } else {
         flist = next->next;
       }
-      frag += next->size - size;
-      //printf("Internal fragmentation %d\n", frag/1024);
       return (void *)(next + 1);
     } else {
       prev = next;

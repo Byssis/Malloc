@@ -11,7 +11,7 @@ struct chunk {
 struct chunk * flist = NULL;
 
 int list_size = 0;
-int frag = 0;
+
 void *malloc(size_t size){
   if(size == 0){
     return NULL;
@@ -33,7 +33,7 @@ void *malloc(size_t size){
   }
   if(diff >= 0){
     list_size--;
-    frag += diff;
+  
     //printf("Internal fragmentation %d\n", frag);
     if(wf == flist)
       flist = flist->next;
