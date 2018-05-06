@@ -10,17 +10,13 @@ struct chunk {
 
 struct chunk * flist = NULL;
 
-int list_size = 0;
-
 void *malloc(size_t size){
-  if(size == 0){
+  if(size == 0)
     return NULL;
-  }
   struct chunk *next = flist;
   struct chunk *prev = NULL;
   int diff = -1;
   struct chunk *wf = NULL;
-
   while (next != NULL) {
     if(next->size >= size){
       if(next->size - size > diff || diff < 0){
@@ -32,18 +28,12 @@ void *malloc(size_t size){
     next = next->next;
   }
   if(diff >= 0){
-    list_size--;
-  
-    //printf("Internal fragmentation %d\n", frag);
     if(wf == flist)
       flist = flist->next;
-
     if(wf-> next != NULL)
       wf->next->prev = wf->prev;
-
     if(wf->prev != NULL)
       wf->prev->next = wf->next;
-
     return (void *)(wf + 1);
   }
   void *memory = sbrk(size + sizeof(struct chunk));
@@ -65,8 +55,6 @@ void free (void *memory){
     if(flist != NULL)
       flist->prev = cnk;
     flist = cnk;
-    list_size++;
-    //printf("%d\n", list_size);
   }
   return;
 }

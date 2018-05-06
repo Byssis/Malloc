@@ -20,7 +20,6 @@ void *malloc(size_t size){
   struct chunk *prev = NULL;
   int diff = -1;
   struct chunk *bf = NULL;
-
   while (next != NULL) {
     if(next->size >= size){
       if(next->size >= size && (next->size - size < diff || diff < 0)){
@@ -35,16 +34,12 @@ void *malloc(size_t size){
   }
   if(diff >= 0){
     list_size--;
-
     if(bf == flist)
       flist = flist->next;
-
     if(bf-> next != NULL)
       bf->next->prev = bf->prev;
-
     if(bf->prev != NULL)
       bf->prev->next = bf->next;
-
     return (void *)(bf + 1);
   }
   void *memory = sbrk(size + sizeof(struct chunk));

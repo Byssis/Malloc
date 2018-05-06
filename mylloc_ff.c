@@ -8,14 +8,12 @@ struct chunk {
 };
 
 struct chunk * flist = NULL;
-
 void *malloc(size_t size){
   if(size == 0){
     return NULL;
   }
   struct chunk *next = flist;
   struct chunk *prev = NULL;
-
   while (next != NULL) {
     if(next->size >= size){
       if(prev != NULL){
@@ -29,7 +27,6 @@ void *malloc(size_t size){
       next = next->next;
     }
   }
-
   void *memory = sbrk(size + sizeof(struct chunk));
   if(memory == (void *) - 1){
     return NULL;
@@ -39,8 +36,6 @@ void *malloc(size_t size){
     return (void*)(cnk + 1);
   }
 }
-
-
 void free (void *memory){
   if(memory != NULL){
     struct chunk *cnk = (struct chunk*)((struct chunk *) memory - 1);

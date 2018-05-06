@@ -19,34 +19,26 @@ void *get_block(int index){
       cnk1->next = NULL;
       return (void*)(cnk1);
     }
-
     void * memory = (void *)get_block(index + 1);
     if(memory == NULL)
       return NULL;
     int size = pow(2, index + 5);
     struct chunk *cnk1 = (struct chunk*)memory;
-
     struct chunk *cnk2 = (struct chunk*)(memory + size);
     cnk1->size = size - sizeof(struct chunk);
     cnk2->size = size - sizeof(struct chunk);
-
     flist[index] = cnk2;
     size_list[index] = 1;
-
     cnk1->next = NULL;
     cnk2->next = NULL;
     return (void*)(cnk1);
   }else{
-
     struct chunk *cnk = flist[index];
-
     flist[index] = cnk->next;
     size_list[index]--;
-
     return (void *)cnk;
   }
 }
-
 void *malloc(size_t size){
   int index = 0;
   int start = 32;
